@@ -1,0 +1,32 @@
+{% extends 'hello/layout/layout.html' %}
+
+
+{% block title %}
+    index page
+{% endblock title %}
+
+
+{% block body %}
+
+<h1>Hello {{name}} From index HTML</h1>
+<ul>
+    {% for task in tasks %}
+    <li>{{task}}</li>
+    <button onclick="location.href='{% url 'deleteTask' task %}'">press to delete {{task}}</button>
+    
+    
+    {% empty %}
+    <p>there is no cities</p>
+    
+    {% endfor %}
+
+    
+    {% if isStudent %}
+        <h3>You are student</h3>
+    {% else %}
+        <h3>You are graduate</h3>
+    {% endif %}
+        
+</ul>
+
+{% endblock body %}    

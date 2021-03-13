@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of tasks</title>
+</head>
+<body>
+    <center><button onclick="location.href='{% url 'create' %}'">create here</button></center>
+    <hr>
+    {% for task in tasks %}
+        <h3>task title: {{task.title}}</h3>
+        <h3>task description: {{task.description}}</h3>
+        <h3>task priority: {{task.priority}}</h3>
+        <h3>task state: {{task.completed}}</h3>
+        <h3>task id: {{task.id}}</h3>
+        <button onclick="location.href='{% url 'delete' id=task.id %}'">delete {{task.title}}</button>
+        <button onclick="location.href='{% url 'update' id=task.id %}'">update {{task.title}}</button>
+        <hr>
+    {% endfor %}
+    
+</body>
+</html>
