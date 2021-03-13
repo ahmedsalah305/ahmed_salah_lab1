@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+</head>
+<body>
+    <h1>List Of Movies</h1>
+    <ul>
+        
+        {% for movie in movies %}
+        <img src="{{movie.poster.url}}" height="400" alt="movie image">
+        <div>
+            <a href="{% url 'show' id=movie.id %}">{{movie.title     }}</a>
+            <h3>{{movie.overView  }}</h3>
+            <h3>{{movie.year      }}</h3>
+        </div>
+        {% endfor %}
+            
+    </ul>
+</body>
+</html>
