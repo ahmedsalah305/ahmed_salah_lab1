@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'hello',
     'tasks',
     'netflix',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sequences.apps.SequencesConfig',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# login redirect url
+LOGIN_REDIRECT_URL = "/netflix/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

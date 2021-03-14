@@ -5,20 +5,111 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-    <h1>List Of Movies</h1>
-    <ul>
-        
-        {% for movie in movies %}
-        <img src="{{movie.poster.url}}" height="400" alt="movie image">
-        <div>
-            <a href="{% url 'show' id=movie.id %}">{{movie.title     }}</a>
-            <h3>{{movie.overView  }}</h3>
-            <h3>{{movie.year      }}</h3>
-        </div>
-        {% endfor %}
-            
-    </ul>
+    <center><h1>List Of Movies</h1></center>
+    <center><a class="btn btn-info" href="{% url 'create' %}">Create</a></center>
+    <hr>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for movie in movies %}
+        <div class="col" style="display: inline-block;">
+            <div class="card shadow-sm">
+            <img class="card-img-top" src="{{movie.poster.url}}">
+            <div class="card-body">
+                <p class="card-text showhide">{{movie.overView}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a class="btn btn-outline-secondary btn-sm mt-2" href="{% url 'update' id=movie.id %}">update</a>
+                    <a class="btn btn-outline-secondary btn-sm mt-2" href="{% url 'show'   id=movie.id %}">watch</a>
+                    <a class="btn btn-outline-secondary btn-sm mt-2" id="{{movie.htmlID}}" onclick=toggleView(this.id);>more</a>
+                    <a class="btn btn-outline-secondary btn-sm mt-2" href="{% url 'delete' id=movie.id %}">delete</a>
+                </div>
+                <small class="text-muted">{{movie.year}}</small>
+                </div>
+            </div>
+            </div>
+        </div>    
+    {% endfor %}
+    </div>
+    <hr>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" 
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+    <script>
+        var wantedLength = 15;
+var HideFlag = true;
+
+paragraphContent = document.getElementsByClassName("showhide");
+
+var wordsArray = [];
+var wordsLengthArray = [];
+var words15Array = [];
+var wordsAfter15Array = [];
+
+function prepareWords()
+{
+    wordsObject = {}
+    wordsLengthObject = {}
+    for (counterMovie = 0 ; counterMovie < paragraphContent.length ; counterMovie++) {
+        wordsObject.words = paragraphContent[counterMovie].innerHTML.split(" ");
+        wordsArray.push(wordsObject.words);
+        wordsLengthObject.myLength = paragraphContent[counterMovie].innerHTML.split(" ").length;
+        wordsLengthArray.push(wordsLengthObject.myLength);
+      }
+}
+prepareWords();
+
+function prepareSpan()
+{
+    var words15Object = {};
+    for (counterMovie = 0 ; counterMovie < paragraphContent.length ; counterMovie++)
+    {
+        words15Object.content15 = "";
+        for (counterWord = 0 ; counterWord < wantedLength ; counterWord++)
+        {
+            words15Object.content15 = words15Object.content15 + wordsArray[counterMovie][counterWord] + " ";
+        }
+        words15Object.content15 = words15Object.content15 + "\n";
+        paragraphContent[counterMovie].innerHTML = `<span>${words15Object.content15}</span>`
+        words15Array.push(words15Object.content15);
+    }
+}
+prepareSpan();
+
+function prepareToggleSpan()
+{
+    var wordsAfter15Object = {};
+    for (counterMovie = 0 ; counterMovie < paragraphContent.length ; counterMovie++)
+    {
+        wordsAfter15Object.contentAfter15 = "";
+        for (counterWord = wantedLength + 1 ; counterWord < wordsLengthArray[counterMovie] ; counterWord++)
+        {
+            wordsAfter15Object.contentAfter15 = wordsAfter15Object.contentAfter15 + wordsArray[counterMovie][counterWord] + " ";
+        }
+        wordsAfter15Object.contentAfter15 = wordsAfter15Object.contentAfter15 + "\n";
+        wordsAfter15Array.push(wordsAfter15Object.contentAfter15);
+    }
+}
+prepareToggleSpan();
+
+function toggleView(index)
+{
+    if(HideFlag)
+    {
+        HideFlag = false;
+        paragraphContent[index].innerHTML = words15Array[index] + " " + wordsAfter15Array[index];
+        document.getElementById(index).innerHTML = "Hide";
+    }      
+    else
+    {
+        HideFlag = true;
+        paragraphContent[index].innerHTML = words15Array[index];
+        document.getElementById(index).innerHTML = "more";
+    }
+}
+    </script>
 </body>
 </html>
